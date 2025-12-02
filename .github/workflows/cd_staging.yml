@@ -1,0 +1,23 @@
+name: Deploy to staging
+on:
+  push:
+    branches: -"main"
+
+jobs:
+  redeploy_3_servers:
+  runs on:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy everything to the staging servers
+        run: |
+          ssh -i ${{secrets.MONOREPO_SSH}} root@157.245.106.119
+          echo "sshed in to the remote server"
+          pwd
+          cd Deploy-Turborepo
+          ls
+          git pull origin main 
+          npm install
+          npm run build
+          pm2 restart fe-server
+          pm2 restart http-server
+          pm2 restart ws-server
