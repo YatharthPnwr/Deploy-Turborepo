@@ -1,23 +1,18 @@
 name: Deploy to staging
 on:
   push:
-    branches:
-      - main
+    branches: [main]
 
 jobs:
-  redeploy_3_servers:
+  redeploy_everything:
     runs-on: ubuntu-latest
+    name: Deploying everything to the staging cluster
     steps:
-      - name: Deploy everything to the staging servers
-        run: |
-          cat << 'EOF' > ~/ssh_key
-          ${{ secrets.MONOREPO_SSH }}
-          EOF
+      - run: |
+          echo "${{ secrets.MONOREPO_SSH }}" &> ~/ssh_key
           mkdir -p /home/runner/.ssh
+          ls /home/runner/.ssh
           touch /home/runner/.ssh/known_hosts
           echo "${{ secrets.KNOWN_HOSTS }}" &> /home/runner/.ssh/known_hosts
           chmod 700 /home/runner/ssh_key
-          ssh -o StrictHostKeyChecking=no \
-          -o UserKnownHostsFile=/dev/null \
-          -i ~/ssh_key root@157.245.106.119 -t "cd Deploy-Turborepo
-          git pull origin main npm install npm run build pm2 restart fe-server pm2 restart http-server pm2 restart ws-server"
+          ssh -i ~/ssh_key root@64.227.147.124 -t "cd week-25-ci-next-app/ && git pull origin main && export PATH=/root/.nvm/versions/node/v22.13.1/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin && npm install -g pnpm && pnpm install && pnpm run build && pm2 restart fe-sever && pm2 restart http-sever && pm2 restart ws-sever"
