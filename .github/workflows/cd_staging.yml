@@ -12,7 +12,7 @@ jobs:
         run: |
           cat << 'EOF' > ~/ssh_key
           ${{ secrets.MONOREPO_SSH }}
-          EOF &> ~/ssh_key
+          EOF
           mkdir -p /home/runner/.ssh
           touch /home/runner/.ssh/known_hosts
           echo "${{ secrets.KNOWN_HOSTS }}" &> /home/runner/.ssh/known_hosts
