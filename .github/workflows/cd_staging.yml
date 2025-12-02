@@ -13,7 +13,6 @@ jobs:
           echo ${{ secrets.MONOREPO_SSH }} &> ~/ssh_key
           ssh -i ~/shh_key root@157.245.106.119
           echo "sshed in to the remote server"
-          pwd
           cd Deploy-Turborepo
           ls
           git pull origin main 
