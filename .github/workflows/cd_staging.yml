@@ -10,7 +10,8 @@ jobs:
     steps:
       - name: Deploy everything to the staging servers
         run: |
-          ssh -i ${{secrets.MONOREPO_SSH}} root@157.245.106.119
+          echo ${{ secrets.MONOREPO_SSH }} &> ~/ssh_key
+          ssh -i ~/shh_key root@157.245.106.119
           echo "sshed in to the remote server"
           pwd
           cd Deploy-Turborepo
