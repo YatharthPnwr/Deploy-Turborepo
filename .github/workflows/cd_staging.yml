@@ -10,6 +10,7 @@ jobs:
     steps:
       - run: |
           echo "${{ secrets.MONOREPO_SSH }}" &> ~/ssh_key
+          chmod 600 ~/ssh_key
           eval "$(ssh-agent -s)"
           ssh-add ~/ssh_key <<< "${{ secrets.KEY_PASSPHRASE }}"
           mkdir -p /home/runner/.ssh
