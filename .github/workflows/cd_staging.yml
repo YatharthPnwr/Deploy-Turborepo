@@ -17,13 +17,5 @@ jobs:
           chmod 700 /home/runner/ssh_key
           ssh -o StrictHostKeyChecking=no \
           -o UserKnownHostsFile=/dev/null \
-          -i ~/ssh_key root@157.245.106.119 << 'EOF'
-          echo "Logged into remote server"
-          cd Deploy-Turborepo
-          ls
-          git pull origin main 
-          npm install
-          npm run build
-          pm2 restart fe-server
-          pm2 restart http-server
-          pm2 restart ws-server
+          -i ~/ssh_key root@157.245.106.119 -t "cd Deploy-Turborepo
+          git pull origin main npm install npm run build pm2 restart fe-server pm2 restart http-server pm2 restart ws-server"
