@@ -12,8 +12,9 @@ jobs:
         run: |
           echo "${{ secrets.MONOREPO_SSH }}" &> ~/ssh_key
           mkdir -p /home/runner/.ssh
-          touch /home/runner/.ssh/known_hosts
+          touch /home/runner/.ssh
           echo "${{ secrets.KNOWN_HOSTS }}" &> /home/runner/.ssh/known_hosts
+          chmod 700 /home/runner/.ssh/known_hosts
           ssh -i ~/shh_key root@157.245.106.119
           echo "sshed in to the remote server"
           cd Deploy-Turborepo
